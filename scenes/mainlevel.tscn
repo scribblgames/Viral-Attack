@@ -1,0 +1,199 @@
+[gd_scene load_steps=20 format=3 uid="uid://c63ctxccelc2g"]
+
+[ext_resource type="PackedScene" uid="uid://bvg4lb5mh2jqc" path="res://player/player.tscn" id="1_gs6d2"]
+[ext_resource type="Script" path="res://generalscripts/enemypathfindmanager.gd" id="1_vj5n8"]
+[ext_resource type="PackedScene" uid="uid://cg8rgcthqswn4" path="res://scenes/transition.tscn" id="2_ie8hy"]
+[ext_resource type="Shader" path="res://shaders/chrony.gdshader" id="2_xg4q7"]
+[ext_resource type="PackedScene" uid="uid://qqb1e8welmqw" path="res://antivirus/antivirus.tscn" id="3_mmody"]
+[ext_resource type="PackedScene" uid="uid://ja8sf3jfgomx" path="res://enemies/scenes/chaserbasic.tscn" id="5_mq514"]
+[ext_resource type="Script" path="res://generalscripts/NavigationRegion2Dbaker.gd" id="6_4ih7w"]
+[ext_resource type="PackedScene" uid="uid://du2vf4gdcquay" path="res://generalsprites/wall.tscn" id="8_63yhi"]
+[ext_resource type="AudioStream" uid="uid://bvhop13aypn2q" path="res://music/BeepBox-Song (1).mp3" id="9_2rrrn"]
+
+[sub_resource type="Animation" id="Animation_ww86f"]
+resource_name = "sway(drunk)"
+length = 10.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2.5, 5, 7.5, 10),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -0.0174533, 0.0, 0.0174533, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fwm8v"]
+_data = {
+"sway(drunk)": SubResource("Animation_ww86f")
+}
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_0py61"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ewt1i"]
+size = Vector2(1015, 7)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_goluw"]
+size = Vector2(19, 727)
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_mrva5"]
+scenes/1/scene = ExtResource("8_63yhi")
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_gjn0k"]
+
+[sub_resource type="TileSet" id="TileSet_w7btt"]
+sources/0 = SubResource("TileSetScenesCollectionSource_mrva5")
+sources/1 = SubResource("TileSetScenesCollectionSource_gjn0k")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d2p4o"]
+shader = ExtResource("2_xg4q7")
+shader_parameter/levels = 5
+shader_parameter/spread = 0.01
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_sqcbf"]
+vertices = PackedVector2Array(215, -60, -362, -4114, 801, -586, 247, -64, 838, -507, 3083, -3856, 1513, -211, 1081, -236, 1048, -216, 1080, 485, 1047, 437, 1045, 151, 697, 469, 632, 434, 1044, 65, 1000, 99, 703, 132, 700, 94, 215, -57, 247, 79, 221, 468, 630, 225, 630, 434, 627, 233, 554, 135, 690, 69, 561, 102, 696, 626, 571, 626, 567, 470, 251, 440, 252, 145, 565, 71)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 5, 6, 7), PackedInt32Array(8, 4, 7), PackedInt32Array(7, 9, 10, 11, 8), PackedInt32Array(10, 9, 12, 13), PackedInt32Array(14, 8, 11), PackedInt32Array(15, 14, 11), PackedInt32Array(15, 11, 16, 17), PackedInt32Array(18, 0, 3, 19, 20), PackedInt32Array(21, 13, 22, 23), PackedInt32Array(21, 23, 24), PackedInt32Array(25, 17, 16, 21, 24, 26), PackedInt32Array(13, 12, 27, 28, 29, 22), PackedInt32Array(30, 22, 29, 20), PackedInt32Array(30, 20, 19, 31), PackedInt32Array(31, 19, 26, 24), PackedInt32Array(25, 26, 32)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-414, -4335, 825, -580, 267, -55, 267, 60, 544, 81, 548, 52, 705, 49, 714, 74, 993, 79, 1024, 55, 1028, -210, 814, -507, 3187, -4048, 1526, -191, 1101, -215, 1100, 506, 717, 490, 716, 646, 552, 646, 548, 490, 202, 488, 195, -57), PackedVector2Array(272, 164, 271, 420, 610, 414, 607, 240, 544, 155), PackedVector2Array(712, 153, 650, 232, 652, 414, 1027, 417, 1025, 170)])
+parsed_geometry_type = 1
+source_geometry_group_name = &"navigation_polygon_source_group"
+agent_radius = 20.0
+
+[node name="basenode" type="Node2D"]
+script = ExtResource("1_vj5n8")
+
+[node name="Node2D2" parent="." instance=ExtResource("2_ie8hy")]
+visible = false
+scale = Vector2(2, 2)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(640, 360)
+rotation = 0.0120249
+ignore_rotation = false
+zoom = Vector2(0.5, 0.5)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Camera2D"]
+libraries = {
+"": SubResource("AnimationLibrary_fwm8v")
+}
+autoplay = "sway(drunk)"
+
+[node name="CharacterBody2D" parent="." instance=ExtResource("5_mq514")]
+position = Vector2(230, -232)
+
+[node name="CharacterBody2D2" parent="." instance=ExtResource("5_mq514")]
+position = Vector2(336, -374)
+
+[node name="CharacterBody2D3" parent="." instance=ExtResource("5_mq514")]
+position = Vector2(1257, -457)
+
+[node name="CharacterBody2D4" parent="." instance=ExtResource("5_mq514")]
+position = Vector2(1072, -287)
+
+[node name="CharacterBody2D5" parent="." instance=ExtResource("5_mq514")]
+position = Vector2(1061, -385)
+
+[node name="CharacterBody2D6" parent="." instance=ExtResource("5_mq514")]
+position = Vector2(617, -513)
+
+[node name="CharacterBody2D7" parent="." instance=ExtResource("5_mq514")]
+position = Vector2(1374, -816)
+
+[node name="CharacterBody2D8" parent="." instance=ExtResource("5_mq514")]
+position = Vector2(1412, -1325)
+
+[node name="CharacterBody2D9" parent="." instance=ExtResource("5_mq514")]
+position = Vector2(1286, -1081)
+
+[node name="CharacterBody2D10" parent="." instance=ExtResource("5_mq514")]
+position = Vector2(339, -708)
+
+[node name="CharacterBody2D11" parent="." instance=ExtResource("5_mq514")]
+position = Vector2(319, -988)
+
+[node name="CharacterBody2D12" parent="." instance=ExtResource("5_mq514")]
+position = Vector2(117, -1253)
+
+[node name="CharacterBody2D13" parent="." instance=ExtResource("5_mq514")]
+position = Vector2(80, -1990)
+
+[node name="CharacterBody2D14" parent="." instance=ExtResource("5_mq514")]
+position = Vector2(309, -1573)
+
+[node name="CharacterBody2D15" parent="." instance=ExtResource("5_mq514")]
+position = Vector2(141, -1775)
+
+[node name="CharacterBody2D16" parent="." instance=ExtResource("5_mq514")]
+position = Vector2(-47, -2687)
+
+[node name="CharacterBody2D17" parent="." instance=ExtResource("5_mq514")]
+position = Vector2(-155, -3171)
+
+[node name="CharacterBody2D18" parent="." instance=ExtResource("5_mq514")]
+position = Vector2(1765, -1211)
+
+[node name="CharacterBody2D19" parent="." instance=ExtResource("5_mq514")]
+position = Vector2(1765, -1821)
+
+[node name="CharacterBody2D20" parent="." instance=ExtResource("5_mq514")]
+position = Vector2(2138, -2083)
+
+[node name="CharacterBody2D21" parent="." instance=ExtResource("5_mq514")]
+position = Vector2(2541, -2854)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." groups=["walls"]]
+physics_material_override = SubResource("PhysicsMaterial_0py61")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(770.5, -6.5)
+shape = SubResource("RectangleShape2D_ewt1i")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(638, 710)
+shape = SubResource("RectangleShape2D_ewt1i")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-0.5, 353.5)
+shape = SubResource("RectangleShape2D_goluw")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(1278, 357)
+shape = SubResource("RectangleShape2D_goluw")
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_w7btt")
+collision_animatable = true
+format = 2
+layer_0/tile_data = PackedInt32Array(2031649, 0, 65536, 2162721, 0, 65536, 2293793, 0, 65536, 2424865, 0, 65536, 2555937, 0, 65536, 2687009, 0, 65536, 2687011, 0, 65536, 2687013, 0, 65536, 2687015, 0, 65536, 2687017, 0, 65536, 2687019, 0, 65536, 2031661, 0, 65536, 2162733, 0, 65536, 2293805, 0, 65536, 2424877, 0, 65536, 2555949, 0, 65536, 2687021, 0, 65536, 1638433, 0, 65536, 1638435, 0, 65536, 1638437, 0, 65536, 1638441, 0, 65536, 1638443, 0, 65536, 1638445, 0, 65536, 1507369, 0, 65536, 1376297, 0, 65536, 1245225, 0, 65536, 1114153, 0, 65536, 983081, 0, 65536, 1507365, 0, 65536, 1376293, 0, 65536, 1245221, 0, 65536, 1114149, 0, 65536, 983077, 0, 65536, 131105, 0, 65536, 262177, 0, 65536, 655393, 0, 65536, 786465, 0, 65536, 131117, 0, 65536, 262189, 0, 65536, 655405, 0, 65536, 786477, 0, 65536, 131107, 0, 65536, 131109, 0, 65536, 131111, 0, 65536, 131113, 0, 65536, 131115, 0, 65536, 917539, 0, 65536, 917547, 0, 65536, 1638431, 0, 65536, 1638429, 0, 65536, 1638425, 0, 65536, 1638427, 0, 65536, 1638417, 0, 65536, 1638419, 0, 65536, 1638421, 0, 65536, 1638423, 0, 65536, 1638449, 0, 65536, 1638451, 0, 65536, 1638453, 0, 65536, 1638455, 0, 65536, 1638457, 0, 65536, 1638459, 0, 65536, 1638461, 0, 65536, 1638447, 0, 65536, 1900555, 0, 65536, 1769483, 0, 65536, 1638411, 0, 65536, 1507339, 0, 65536, 1376267, 0, 65536, 1245195, 0, 65536, 1114123, 0, 65536, 1507345, 0, 65536, 1376273, 0, 65536, 1245201, 0, 65536, 983051, 0, 65536, 1114129, 0, 65536, 983057, 0, 65536, 983103, 0, 65536, 1114175, 0, 65536, 1245247, 0, 65536, 1376319, 0, 65536, 1507391, 0, 65536, 983109, 0, 65536, 1114181, 0, 65536, 1245253, 0, 65536, 1376325, 0, 65536, 1507397, 0, 65536, 1638469, 0, 65536, 1900613, 0, 65536, 1638463, 0, 65536, 1769541, 0, 65536, 851979, 0, 65536, 720907, 0, 65536, 589835, 0, 65536, 458763, 0, 65536, 327691, 0, 65536, 196619, 0, 65536, 65547, 0, 65536, -65525, 0, 65536, -196597, 0, 65536, 851985, 0, 65536, 196625, 0, 65536, 65553, 0, 65536, -65519, 0, 65536, -196591, 0, 65536, 65599, 0, 65536, 196671, 0, 65536, 720959, 0, 65536, 852031, 0, 65536, 65605, 0, 65536, 196677, 0, 65536, 327749, 0, 65536, 458821, 0, 65536, 589893, 0, 65536, 720965, 0, 65536, 852037, 0, 65536, -851905, 0, 65536, -720833, 0, 65536, -589761, 0, 65536, -458689, 0, 65536, -327617, 0, 65536, -196545, 0, 65536, -65473, 0, 65536, -851899, 0, 65536, -720827, 0, 65536, -589755, 0, 65536, -458683, 0, 65536, -327611, 0, 65536, -196539, 0, 65536, -65467, 0, 65536, 262191, 0, 65536, 262193, 0, 65536, 262195, 0, 65536, 262197, 0, 65536, 262199, 0, 65536, 262201, 0, 65536, 262203, 0, 65536, 262205, 0, 65536, 655407, 0, 65536, 655409, 0, 65536, 655411, 0, 65536, 655413, 0, 65536, 655415, 0, 65536, 655417, 0, 65536, 655419, 0, 65536, 655421, 0, 65536, 262163, 0, 65536, 655379, 0, 65536, 262165, 0, 65536, 655381, 0, 65536, 262167, 0, 65536, 655383, 0, 65536, 262169, 0, 65536, 655385, 0, 65536, 262171, 0, 65536, 655387, 0, 65536, 262173, 0, 65536, 655389, 0, 65536, 262175, 0, 65536, 655391, 0, 65536, 720913, 0, 65536, 2031629, 0, 65536, 2031631, 0, 65536, 2031633, 0, 65536, 2031635, 0, 65536, 2031637, 0, 65536, 2031639, 0, 65536, 2031641, 0, 65536, 2031643, 0, 65536, 2031645, 0, 65536, 2031647, 0, 65536, 2031627, 0, 65536, 2031663, 0, 65536, 2031665, 0, 65536, 2031667, 0, 65536, 2031669, 0, 65536, 2031671, 0, 65536, 2031673, 0, 65536, 2031675, 0, 65536, 2031677, 0, 65536, 2031679, 0, 65536, 2031681, 0, 65536, 2031683, 0, 65536, 2031685, 0, 65536)
+
+[node name="Node2D" parent="." instance=ExtResource("3_mmody")]
+position = Vector2(633, 120)
+
+[node name="Character" parent="." instance=ExtResource("1_gs6d2")]
+position = Vector2(640, 523)
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+material = SubResource("ShaderMaterial_d2p4o")
+offset_right = 1280.0
+offset_bottom = 720.0
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(1280, 720)
+render_target_update_mode = 4
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+position = Vector2(0, 3)
+navigation_polygon = SubResource("NavigationPolygon_sqcbf")
+constrain_avoidance = true
+script = ExtResource("6_4ih7w")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_2rrrn")
+volume_db = -19.676
+autoplay = true
+
+[connection signal="wakeup" from="Node2D" to="." method="_on_node_2d_wakeup"]

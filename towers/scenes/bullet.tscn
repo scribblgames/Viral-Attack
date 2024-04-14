@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://dfyapl4sanyre"]
+
+[ext_resource type="Texture2D" uid="uid://dn6q3103240le" path="res://towers/sprites/default/basicbullet.png" id="1_7bttq"]
+[ext_resource type="Script" path="res://towers/scripts/bullethitreg.gd" id="1_spjlt"]
+[ext_resource type="Script" path="res://towers/scripts/bullet1.gd" id="2_jvwnv"]
+[ext_resource type="AudioStream" uid="uid://b1vfe16ycuuje" path="res://sounds/Explosion 28.wav" id="3_ioyj5"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_iuefv"]
+radius = 14.0357
+
+[node name="Bullet" type="Node2D"]
+z_index = -100
+script = ExtResource("1_spjlt")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(2, 2)
+texture = ExtResource("1_7bttq")
+script = ExtResource("2_jvwnv")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_ioyj5")
+volume_db = -25.742
+autoplay = true
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_iuefv")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="body_shape_entered" from="Area2D" to="." method="_on_area_2d_body_shape_entered"]

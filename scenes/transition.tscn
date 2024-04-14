@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3 uid="uid://cg8rgcthqswn4"]
+
+[ext_resource type="Texture2D" uid="uid://yp33hwfamtud" path="res://generalsprites/Screenshot 2024-04-14 120601.png" id="1_k7oua"]
+[ext_resource type="SpriteFrames" uid="uid://nf8cqrcy2uv3" path="res://animations/go.tres" id="1_t30ft"]
+[ext_resource type="Script" path="res://generalscripts/savenload.gd" id="2_3w7cm"]
+[ext_resource type="Shader" path="res://shaders/chrony.gdshader" id="2_suaeo"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_oipah"]
+shader = ExtResource("2_suaeo")
+shader_parameter/levels = 5
+shader_parameter/spread = 0.01
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_k7oua")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(319, 164)
+scale = Vector2(5, 5)
+sprite_frames = ExtResource("1_t30ft")
+autoplay = "default"
+frame_progress = 0.269131
+
+[node name="Button" type="Button" parent="."]
+visible = false
+offset_right = 629.0
+offset_bottom = 356.0
+script = ExtResource("2_3w7cm")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+material = SubResource("ShaderMaterial_oipah")
+offset_left = -312.0
+offset_top = -195.0
+offset_right = 968.0
+offset_bottom = 525.0
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(1280, 720)
+render_target_update_mode = 4
+
+[connection signal="pressed" from="Button" to="Button" method="_on_pressed"]

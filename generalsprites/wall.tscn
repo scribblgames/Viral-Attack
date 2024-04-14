@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://du2vf4gdcquay"]
+
+[ext_resource type="Texture2D" uid="uid://c0lsd5of1qu6u" path="res://generalsprites/pixil-frame-7.png" id="1_4fcaw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xib1o"]
+size = Vector2(32, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0f78c"]
+size = Vector2(32, 32)
+
+[node name="Area2D" type="Area2D" groups=["walls"]]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(2, 2)
+texture = ExtResource("1_4fcaw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_xib1o")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("RectangleShape2D_0f78c")

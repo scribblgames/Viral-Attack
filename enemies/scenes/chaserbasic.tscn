@@ -1,0 +1,55 @@
+[gd_scene load_steps=6 format=3 uid="uid://ja8sf3jfgomx"]
+
+[ext_resource type="Script" path="res://enemies/scripts/chaserbasic.gd" id="1_dppip"]
+[ext_resource type="Texture2D" uid="uid://ckbm54615x0kx" path="res://enemies/sprites/pixil-frame-8.png" id="2_st6ya"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2sgmh"]
+size = Vector2(125, 124)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_pggit"]
+particle_flag_disable_z = true
+angle_min = -720.0
+angle_max = 720.0
+inherit_velocity_ratio = 1.0
+spread = 180.0
+initial_velocity_min = 22.47
+initial_velocity_max = 393.26
+angular_velocity_min = -720.0
+angular_velocity_max = 720.0
+orbit_velocity_min = -2.0
+orbit_velocity_max = 2.0
+gravity = Vector3(0, 0, 0)
+turbulence_enabled = true
+turbulence_noise_scale = 6.684
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_wp5pm"]
+size = Vector2(5, 5)
+
+[node name="CharacterBody2D" type="CharacterBody2D" groups=["enemies"]]
+scale = Vector2(0.25, 0.25)
+script = ExtResource("1_dppip")
+
+[node name="Area2D" type="Area2D" parent="." groups=["enemies"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0.5, 1)
+shape = SubResource("RectangleShape2D_2sgmh")
+
+[node name="Sprite2D" type="Sprite2D" parent="Area2D"]
+modulate = Color(0.137255, 0, 0, 1)
+texture_filter = 1
+scale = Vector2(15, 15)
+texture = ExtResource("2_st6ya")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+debug_path_custom_color = Color(1, 1, 0, 1)
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+modulate = Color(0.898039, 0, 0, 1)
+show_behind_parent = true
+amount = 4
+process_material = SubResource("ParticleProcessMaterial_pggit")
+texture = SubResource("PlaceholderTexture2D_wp5pm")
+lifetime = 10.0
+speed_scale = 11.05
+interpolate = false

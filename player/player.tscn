@@ -1,0 +1,72 @@
+[gd_scene load_steps=10 format=3 uid="uid://bvg4lb5mh2jqc"]
+
+[ext_resource type="Texture2D" uid="uid://bh0w018gxx2xf" path="res://player/sprites/player.png" id="1_2b63s"]
+[ext_resource type="Script" path="res://player/scripts/playermovement.gd" id="1_3nvqg"]
+[ext_resource type="Script" path="res://player/scripts/playeranimation.gd" id="3_u2ovg"]
+[ext_resource type="Script" path="res://player/scripts/canplacethemdown.gd" id="4_21nkf"]
+[ext_resource type="AudioStream" uid="uid://d0irw0bjso7mj" path="res://music/BeepBox-Song.mp3" id="5_conto"]
+[ext_resource type="Script" path="res://player/scripts/lowhealthwarning.gd" id="6_s21ik"]
+
+[sub_resource type="Animation" id="Animation_a2tjt"]
+resource_name = "move_around"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.5, 0.8, 1, 1.2, 1.5, 1.7, 2),
+"transitions": PackedFloat32Array(1, 5.09824, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.223761, -0.101632, 0.0539242, 0.0, -0.13091, 0.073546, -0.0708201, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_flpuw"]
+_data = {
+"move_around": SubResource("Animation_a2tjt")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_js382"]
+size = Vector2(14, 14)
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+scale = Vector2(1.25, 1.25)
+script = ExtResource("1_3nvqg")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(1.25, 1.25)
+texture = ExtResource("1_2b63s")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D"]
+libraries = {
+"": SubResource("AnimationLibrary_flpuw")
+}
+speed_scale = 2.0
+script = ExtResource("3_u2ovg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_js382")
+
+[node name="Area2D" type="Area2D" parent="." groups=["player"]]
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_js382")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+script = ExtResource("4_21nkf")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_conto")
+script = ExtResource("6_s21ik")
+
+[connection signal="AHSHITDAMAGE" from="." to="AudioStreamPlayer" method="_on_character_body_2d_ahshitdamage"]
+[connection signal="is_moving" from="." to="Sprite2D/AnimationPlayer" method="_on_character_body_2d_is_moving"]
+[connection signal="putitdown" from="." to="Timer" method="_on_character_body_2d_putitdown"]
+[connection signal="wegood" from="." to="AudioStreamPlayer" method="_on_character_body_2d_wegood"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]
+[connection signal="timeout" from="Timer" to="Timer" method="_on_timeout"]
